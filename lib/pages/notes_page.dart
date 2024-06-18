@@ -72,7 +72,7 @@ class _NotesPageState extends State<NotesPage> {
         title: const Text('Notes'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.settings),
+            icon: const Icon(Icons.settings, color: Colors.white),
             onPressed: () {
               Navigator.push(
                 context,
@@ -81,6 +81,7 @@ class _NotesPageState extends State<NotesPage> {
             },
           ),
         ],
+        backgroundColor: Colors.green,
       ),
       backgroundColor: const Color.fromARGB(255, 255, 253, 254),
       body: ValueListenableBuilder(
@@ -88,7 +89,7 @@ class _NotesPageState extends State<NotesPage> {
         builder: (context, Box<Note> box, _) {
           if (box.values.isEmpty) {
             return const Center(
-              child: Text('No notes yet!'),
+              child: Text('Masih tidak ada notes'),
             );
           }
           return ListView.builder(
@@ -98,11 +99,11 @@ class _NotesPageState extends State<NotesPage> {
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                 child: Card(
-                  color: Colors.greenAccent,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(15),
                   ),
                   elevation: 5,
+                  shadowColor: Colors.greenAccent,
                   child: GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -112,26 +113,58 @@ class _NotesPageState extends State<NotesPage> {
                         ),
                       );
                     },
-                    child: ListTile(
-                      title: Text(
-                        note?.title ?? '',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Colors.greenAccent.shade100, Colors.greenAccent.shade400],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
                         ),
+                        borderRadius: BorderRadius.circular(15),
                       ),
-                      subtitle: Text(
-                        'Created: ${note?.createdAt}\nUpdated: ${note?.updatedAt}',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.black.withOpacity(0.6),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.note, color: Colors.white, size: 40),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: Text(
+                                    note?.title ?? '',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              'Dibuat: ${note?.createdAt}\nDiupdate: ${note?.updatedAt}',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white.withOpacity(0.8),
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: IconButton(
+                                icon: const Icon(Icons.delete, color: Colors.redAccent),
+                                onPressed: () {
+                                  _deleteNoteConfirm(index);
+                                },
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {
-                          _deleteNoteConfirm(index);
-                        },
                       ),
                     ),
                   ),

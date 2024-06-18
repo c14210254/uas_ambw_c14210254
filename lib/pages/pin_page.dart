@@ -54,8 +54,9 @@ class _PinPageState extends State<PinPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.isFirstTime ? 'Create PIN' : 'Enter PIN'),
+        backgroundColor: Colors.green,
       ),
-      backgroundColor:  const Color.fromARGB(255, 255, 253, 254),
+      backgroundColor: const Color.fromARGB(255, 255, 253, 254),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Center(
@@ -74,26 +75,46 @@ class _PinPageState extends State<PinPage> {
                   Text(
                     widget.isFirstTime ? 'Create a new PIN' : 'Enter your PIN',
                     style: const TextStyle(
-                        fontSize: 24, fontWeight: FontWeight.bold),
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green,
+                    ),
                   ),
                   const SizedBox(height: 20),
-                  TextFormField(
-                    controller: _pinController,
-                    decoration: const InputDecoration(
-                      labelText: 'PIN',
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.lock),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.green.withOpacity(0.2),
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
                     ),
-                    obscureText: true,
-                    keyboardType: TextInputType.number,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a PIN';
-                      } else if (value.length < 4) {
-                        return 'PIN should be at least 4 digits';
-                      }
-                      return null;
-                    },
+                    child: TextFormField(
+                      controller: _pinController,
+                      decoration: InputDecoration(
+                        labelText: 'PIN',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        prefixIcon: const Icon(Icons.lock, color: Colors.green),
+                        filled: true,
+                        fillColor: Colors.white,
+                      ),
+                      obscureText: true,
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a PIN';
+                        } else if (value.length < 4) {
+                          return 'PIN should be at least 4 digits';
+                        }
+                        return null;
+                      },
+                    ),
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
@@ -105,6 +126,8 @@ class _PinPageState extends State<PinPage> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
+                      elevation: 5,
+                      shadowColor: Colors.greenAccent,
                     ),
                     child: Text(
                       widget.isFirstTime ? 'Create PIN' : 'Enter PIN',
